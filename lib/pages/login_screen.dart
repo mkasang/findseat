@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart%20';
+import 'package:genielogiciel/controllers/auth_controller.dart';
 import 'package:genielogiciel/pages/signup_screen.dart';
 import 'package:genielogiciel/utils/social_buttons.dart';
 import 'package:genielogiciel/utils/theme.dart';
@@ -15,6 +16,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
@@ -75,6 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0),
                       child: TextFormField(
+                        style: const TextStyle(color: Colors.black),
+                        controller: emailController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -90,7 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: TextFormField(
+                        controller: passwordController,
                         obscureText: true,
+                        style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -116,7 +123,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AuthController.instance.login(
+                            emailController.text.trim(),
+                            passwordController.text.trim());
+                      },
                       style: ElevatedButton.styleFrom(
                           primary: MyTheme.splash,
                           shape: RoundedRectangleBorder(
@@ -162,7 +173,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: SocialLoginButtons(
-                        onGoogleClick: () {},
+                        onGoogleClick: () {
+                          AuthController.instance.googleLogin();
+                        },
                         onFbClick: () {},
                       ),
                     ),

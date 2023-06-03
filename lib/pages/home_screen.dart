@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:genielogiciel/controllers/auth_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +14,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            AuthController.instance.signOut();
+          },
           child: Center(
             child: Text("Logout"),
           ),

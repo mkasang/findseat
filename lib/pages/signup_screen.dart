@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart%20';
+import 'package:genielogiciel/controllers/auth_controller.dart';
+import 'package:genielogiciel/controllers/input_validator.dart';
 import 'package:genielogiciel/utils/social_buttons.dart';
 import 'package:genielogiciel/utils/theme.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,11 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final cnfpasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
@@ -57,6 +64,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0),
                       child: TextFormField(
+                        controller: nameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -72,6 +80,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -87,6 +96,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: TextFormField(
+                        controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -103,6 +113,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                       child: TextFormField(
+                        controller: cnfpasswordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -117,7 +128,20 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (InputValidator.validateField(
+                                "Name", nameController.text.trim()) &&
+                            InputValidator.validateField(
+                                "Email", emailController.text.trim())) {
+                          if (InputValidator.validatePassword(
+                              passwordController.text,
+                              cnfpasswordController.text)) {
+                            AuthController.instance.registerUser(
+                                emailController.text.trim(),
+                                passwordController.text.trim());
+                          }
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                           primary: MyTheme.splash,
                           shape: RoundedRectangleBorder(
@@ -126,7 +150,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Padding(
                           padding: EdgeInsets.all(12.0),
                           child: Text(
-                            "CREATE",
+                            "SIGNUP",
                             style: TextStyle(fontSize: 16.0),
                           ),
                         ),
@@ -183,8 +207,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         fontWeight: FontWeight.w700),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                       // Navigator.pop(context);
-                       Get.back();
+                        // Navigator.pop(context);
+                        Get.back();
                       },
                   ),
                   const TextSpan(

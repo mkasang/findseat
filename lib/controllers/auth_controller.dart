@@ -7,8 +7,9 @@ import 'package:genielogiciel/utils/theme.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
-  final AuthController instance = Get.find();
+  static AuthController instance = Get.find();
   late Rx<User?> _user;
+  bool isLoging = false;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -17,11 +18,11 @@ class AuthController extends GetxController {
     super.onReady();
     _user = Rx<User?>(auth.currentUser);
     _user.bindStream(auth.authStateChanges());
-    ever(_user, LoginRedirect);
+    ever(_user, loginRedirect);
   }
 
-  LoginRedirect(User? user) {
-    Timer(const Duration(seconds: 2), () {
+  loginRedirect(User? user) {
+    Timer(Duration(seconds: isLoging ? 0 : 2), () {
       if (user == null) {
         Get.offAll(() => const LoginScreen());
       } else {
@@ -34,8 +35,9 @@ class AuthController extends GetxController {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       //define error
+      getErrorSnackBar("Account Creating Faild", e);
     }
   }
 
@@ -49,5 +51,8 @@ class AuthController extends GetxController {
       borderRadius: 10.0,
       margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
     );
+  }
+  void signOut() async {
+    await auth.signOut();
   }
 }

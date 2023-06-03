@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart%20';
 import 'package:genielogiciel/pages/signup_screen.dart';
 import 'package:genielogiciel/utils/social_buttons.dart';
 import 'package:genielogiciel/utils/theme.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -181,8 +182,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w700),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => SignupScreen()));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (_) => SignupScreen()));
+
+                        Get.to(SignupScreen());
                       },
                   ),
                   const TextSpan(

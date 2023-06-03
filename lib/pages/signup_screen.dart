@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart%20';
 import 'package:genielogiciel/utils/social_buttons.dart';
 import 'package:genielogiciel/utils/theme.dart';
+import 'package:get/get.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -182,7 +183,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         fontWeight: FontWeight.w700),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.pop(context);
+                       // Navigator.pop(context);
+                       Get.back();
                       },
                   ),
                   const TextSpan(

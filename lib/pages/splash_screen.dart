@@ -30,10 +30,10 @@ class _SpashScreenState extends State<SpashScreen>
         reverseCurve: Curves.bounceInOut);
     _animationController.forward();
 
-    Timer(
-        Duration(milliseconds: 2500),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => LoginScreen())));
+    // Timer(
+    //     Duration(milliseconds: 2500),
+    //     () => Navigator.pushReplacement(
+    //         context, MaterialPageRoute(builder: (_) => LoginScreen())));
     super.initState();
   }
 

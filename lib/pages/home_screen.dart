@@ -1,18 +1,20 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart%20';
 import 'package:genielogiciel/controllers/auth_controller.dart';
 import 'package:genielogiciel/controllers/location_controller.dart';
 import 'package:genielogiciel/controllers/shared_pref.dart';
+import 'package:genielogiciel/pages/profile_screen.dart';
 import 'package:genielogiciel/utils/constants.dart';
 import 'package:genielogiciel/utils/custom_slider.dart';
 import 'package:genielogiciel/utils/dummy_data.dart';
+import 'package:genielogiciel/utils/event_items.dart';
 import 'package:genielogiciel/utils/menu_item.dart';
 import 'package:genielogiciel/utils/movies_items.dart';
 import 'package:genielogiciel/utils/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -60,13 +62,18 @@ class _HomeScreenState extends State<HomeScreen> {
           child: AppBar(
             leading: Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25.0),
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: picUrl,
-                  height: 60.0,
-                  width: 60.0,
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(const ProfileScreen());
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25.0),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: picUrl,
+                    height: 60.0,
+                    width: 60.0,
+                  ),
                 ),
               ),
             ),
@@ -75,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Name"),
+                  Text(AuthController.instance.user!.displayName ?? "Name"),
                   DropdownButton<String>(
                       value: city,
                       dropdownColor: MyTheme.statusBar,
@@ -146,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, top: 20.0),
                   child: Text(
-                    "RECOMMENDED MOvIES",
+                    "RECOMMENDED MOvIES".toUpperCase(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black.withOpacity(0.6),
@@ -223,6 +230,46 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
+                ),
+                EventItems(
+                  events: events,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 20.0, top: 10.0, right: 20.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icons/theater_masks.svg",
+                        color: Colors.black.withOpacity(0.8),
+                        height: 18.0,
+                        width: 18.0,
+                      ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
+                      Text(
+                        "Plays".toUpperCase(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "View All",
+                          style: TextStyle(
+                            color: MyTheme.splash,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                EventItems(
+                  events: plays,
                 ),
               ],
             ),

@@ -15,11 +15,21 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  cached_network_image:
   flutter_svg:
   firebase_core:
   firebase_auth:
   get:
   google_sign_in:
+  intl: 
+  dotted_border:
+  geocoding:
+  google_maps_flutter:
+  http:
+  loading_overlay:
+  location:
+  razorpay_flutter:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +44,11 @@ flutter:
  
   assets:
     - assets/icons/
+    - assets/
+    - assets/actors/
+    - assets/movies/
+    - assets/events/
+    - assets/plays/
 
   fonts:
     - family: Poppins

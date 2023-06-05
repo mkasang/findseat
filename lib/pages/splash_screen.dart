@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart ';
-import 'package:genielogiciel/pages/login_screen.dart';
 import 'package:genielogiciel/utils/theme.dart';
 
 class SpashScreen extends StatefulWidget {

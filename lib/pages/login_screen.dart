@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final forgotEmailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
@@ -113,7 +114,57 @@ class _LoginScreenState extends State<LoginScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.defaultDialog(
+                            title: "Forgort Password?",
+                            content: TextFormField(
+                              style: const TextStyle(color: Colors.black),
+                              controller: forgotEmailController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  borderSide: BorderSide.none,
+                                ),
+                                hintText: "Email address",
+                                hintStyle:
+                                    const TextStyle(color: Colors.black45),
+                                fillColor: MyTheme.greyColor,
+                                filled: true,
+                              ),
+                            ),
+                            radius: 10,
+                            onWillPop: () {
+                              forgotEmailController.text = "";
+
+                              return Future.value(true);
+                            },
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            confirm: ElevatedButton(
+                              onPressed: () {
+                                AuthController.instance.forgorPassword(
+                                    forgotEmailController.text.trim());
+                                forgotEmailController.text = "";
+                                Get.back();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: MyTheme.splash,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              child: const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Text(
+                                    "Send Reset Mail",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                         child: const Text(
                           "Forgot Password ?",
                           style: TextStyle(

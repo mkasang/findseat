@@ -11,6 +11,7 @@ class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
   bool isLoging = false;
+  User? get user => _user.value;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -60,7 +61,12 @@ class AuthController extends GetxController {
   }
 
   void googleLogin() async {
+    isLoging = true;
+    update();
     final GoogleSignIn googleSignIn = GoogleSignIn();
+    try {
+      googleSignIn.disconnect();
+    } catch (e) {}
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
@@ -78,6 +84,15 @@ class AuthController extends GetxController {
     }
   }
 
+  void forgorPassword(email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      getSuccessSnackBar("Reset mail sent successfully. Check mail!");
+    } on FirebaseAuthException catch (e) {
+      getErrorSnackBar("Error", e);
+    }
+  }
+
   getErrorSnackBar(String message, _) {
     Get.snackbar(
       "Error",
@@ -87,6 +102,18 @@ class AuthController extends GetxController {
       colorText: Colors.white,
       borderRadius: 10.0,
       margin: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
+    );
+  }
+
+  getSuccessSnackBar(String message) {
+    Get.snackbar(
+      "Success",
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: MyTheme.greenTextColor,
+      colorText: Colors.white,
+      borderRadius: 10,
+      margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
     );
   }
 
